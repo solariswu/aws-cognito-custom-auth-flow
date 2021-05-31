@@ -52,7 +52,7 @@
                 class="spinner-border spinner-border-sm"
                 role="status"
                 aria-hidden="true"
-              > Sign In</span>
+              ></span>Sign In
               </b-button>
                 <b-button v-else
                   variant="success"
