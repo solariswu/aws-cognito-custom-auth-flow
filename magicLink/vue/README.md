@@ -69,23 +69,30 @@ https://console.aws.amazon.com/dynamodb/home?region=us-east-1#create-table:
     https://github.com/solariswu/aws-cognito-custom-auth-flow/blob/main/magicLink/vue/src/views/Login.vue#L52
 
 === Link IdP users with Userpool users ===
+
 8. Create a lambda function restlinkuser - Runtime Nodejs 14
     https://github.com/solariswu/aws-cognito-custom-auth-flow/blob/main/magicLink/cdk/lambda/magiclinkuser/restlinkuser.js    
 
     lambda execution role for this lambda : AWSLambdaBasicExecutionRole + cognito-idp:adminLinkUser + cognito-idp:listuser + cognito-idp:deleteuser
 
 9. Create a new path under APIGateway 
-    c. https://yourapigateway_domain.com/linkuser
+    API path - https://yourapigateway_domain.com/linkuser
     create Method "GET"
     use the restlinkuser lambda as the backend, ensure tick the ***"Use Lambda Proxy integration"*** - YES
     set up Userpool authorizor for this GET method. 
 
 10. Create a new path under APIGateway
-    d. https://yourapigateway_domain.com/valiatetoken
+    API path. https://yourapigateway_domain.com/valiatetoken
     Method Get
     choose 'Mock' as the integration type of this method.
     set up Userpool authorizor for this GET method.
  
+ 
+=== Change forgot password / reset password to email link instead of email code ===
+
+11. Create a new lambda function. It would require to be set in the userpool's Custom message lambda trigger.
+    https://github.com/solariswu/aws-cognito-custom-auth-flow/blob/main/magicLink/cdk/lambda/customForgotPwd.js
+    Runtime - NodeJs 14 - execution role - AWSLambdaBasicExecutionRole
 
 ### Project setup
 ```
