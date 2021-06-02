@@ -184,7 +184,8 @@
   </div>
 </template>
 <script>
-import { Auth, Hub } from "aws-amplify";
+import { Auth } from "@aws-amplify/auth";
+import { Hub } from "@aws-amplify/core";
 import ChangePassword from "./ChangePassword.vue";
 
 export default {
@@ -199,14 +200,18 @@ export default {
     };
   },
   mounted: function () {
+    // window.localStorage.removeItem("idtoken", "");
+    // window.localStorage.removeItem("username", "");
+
     Hub.listen("auth", ({ payload: { event, data } }) => {
       switch (event) {
         case "cognitoHostedUI":
+          this.loading = false;
           Auth.currentAuthenticatedUser().then((userData) => {
             console.log("user", userData);
-            this.transitUserInfo(userData);
+            this.$router.push("/userinfo");
+            // this.transitUserInfo(userData);
           });
-          this.loading = false;
           break;
         case "signOut":
           // setUser(null);
@@ -233,26 +238,26 @@ export default {
           });
         },
 
-    transitUserInfo(userData) {
-      const tokens = userData.signInUserSession.idToken.jwtToken.split(".");
-      const tokenObj = JSON.parse(Buffer.from(tokens[1], "base64").toString());
-      const currentDate = new Date(tokenObj["exp"] * 1000);
+    // transitUserInfo(userData) {
+    //   const tokens = userData.signInUserSession.idToken.jwtToken.split(".");
+    //   const tokenObj = JSON.parse(Buffer.from(tokens[1], "base64").toString());
+    //   const currentDate = new Date(tokenObj["exp"] * 1000);
 
-      this.$router.push({
-        name: "UserInfo",
-        params: {
-          username: tokenObj["cognito:username"],
-          role: tokenObj["cognito:roles"],
-          group: tokenObj["cognito:groups"],
-          email: tokenObj["email"],
-          exp: currentDate.toLocaleString(),
-          timezone: currentDate
-            .toString()
-            .match(/\((.*)\)/)
-            .pop(),
-        },
-      });
-    },
+    //   this.$router.push({
+    //     name: "UserInfo",
+    //     params: {
+    //       username: tokenObj["cognito:username"],
+    //       role: tokenObj["cognito:roles"],
+    //       group: tokenObj["cognito:groups"],
+    //       email: tokenObj["email"],
+    //       exp: currentDate.toLocaleString(),
+    //       timezone: currentDate
+    //         .toString()
+    //         .match(/\((.*)\)/)
+    //         .pop(),
+    //     },
+    //   });
+    // },
 
     async oauthLogin(providerName) {
       this.loading = true;
@@ -267,7 +272,8 @@ export default {
             this.user = userData;
             this.loading = false;
           } else {
-            this.transitUserInfo(userData);
+            this.$router.push ("/userinfo");
+            // this.transitUserInfo(userData);
           }
         })
         .catch((err) => {
