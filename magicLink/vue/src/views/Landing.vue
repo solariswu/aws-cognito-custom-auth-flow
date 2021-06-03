@@ -79,19 +79,6 @@ export default {
                   );
                   window.localStorage.setItem("idpname", matches[0]);
 
-                  // console.log('awsconfig', awsconfig);
-                  // let oauth = {
-                  //   domain: awsconfig.oauth.domain,
-                  //   scope: awsconfig.oauth.scope,
-                  //   redirectSignIn: awsconfig.oauth.redirectSignIn,
-                  //   redirectSignOut: awsconfig.oauth.redirectSignOutLinkUser,
-                  //   redirectSignOutLinkUser: awsconfig.oauthredirectSignOutLinkUser,
-                  //   responseType: awsconfig.oauth.responseType
-                  // };
-                  // let configUpdate = awsconfig;
-                  // configUpdate.oauth = oauth;
-                  // console.log ('configUpdate', configUpdate);
-                  // Amplify.configure (configUpdate);
                   Auth.signOut();
                   //                    this.toast("Email Sent!");
                 })
@@ -106,36 +93,17 @@ export default {
           });
           break;
         case "signOut":
-          // setUser(null);
+          this.$$router.push("/");
           break;
         case "signIn_failure":
         case "cognitoHostedUI_failure":
           console.log("Sign in failure", data);
+          this.$router.push("/");
           break;
       }
     });
   },
   methods: {
-    // transitUserInfo(userData) {
-    //   const tokens = userData.signInUserSession.idToken.jwtToken.split(".");
-    //   const tokenObj = JSON.parse(Buffer.from(tokens[1], "base64").toString());
-    //   const currentDate = new Date(tokenObj["exp"] * 1000);
-
-    //   this.$router.push({
-    //     name: "UserInfo",
-    //     params: {
-    //       username: tokenObj["cognito:username"],
-    //       role: tokenObj["cognito:roles"],
-    //       group: tokenObj["cognito:groups"],
-    //       email: tokenObj["email"],
-    //       exp: currentDate.toLocaleString(),
-    //       timezone: currentDate
-    //         .toString()
-    //         .match(/\((.*)\)/)
-    //         .pop(),
-    //     },
-    //   });
-    // },
     async exchangeToken(username, federatedUserIdToken) {
       Auth.configure({
         authenticationFlowType: "CUSTOM_AUTH",
@@ -143,7 +111,7 @@ export default {
 
       let challengeResponse = federatedUserIdToken;
 
-      Auth.signIn(username, null, { type: "linkuser" })
+      Auth.signIn(username)
         .then((user) => {
           if (user.challengeName === "CUSTOM_CHALLENGE") {
             // to send the answer of the custom challenge
@@ -151,8 +119,7 @@ export default {
               .then((user) => {
                 console.log("exchanged:", user);
                 this.$router.push("/userinfo");
-                // this.transitUserInfo(user);
-              }) //user)
+              }) 
               .catch((err) => console.log(err));
           } else {
             console.log(user);

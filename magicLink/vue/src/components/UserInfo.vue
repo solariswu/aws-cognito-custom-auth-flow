@@ -15,6 +15,9 @@
             </div>
             <div class="user-info">
               <p class="user-name">
+                UID:{{ this.username ? this.username : "--" }}
+              </p>
+              <p class="user-email">
                 <i class="icon ion-md-mail"> </i>
                 {{ this.email ? this.email : "--" }}
               </p>
@@ -29,7 +32,7 @@
               </p>
               <p class="user-title">Linked IdPs:</p>
               <p class="user-content">
-                {{this.idp_names}}
+                {{ this.idp_names }}
               </p>
             </div>
           </div>
@@ -80,7 +83,7 @@ export default {
       exp: "",
       timezone: "",
       gravatar: "",
-      idp_names: ""
+      idp_names: "",
     };
   },
   mounted: function () {
@@ -117,26 +120,29 @@ export default {
       const tokenObj = JSON.parse(Buffer.from(tokens[1], "base64").toString());
       const currentDate = new Date(tokenObj["exp"] * 1000);
 
-      console.log ('tokenobj', tokenObj);
-        
+      console.log("tokenobj", tokenObj);
+
       if (tokenObj) {
         for (let i = 0; i < tokenObj.identities.length; i++) {
-            this.idp_names = this.idp_names + tokenObj.identities[i].providerName + ' ';
-          }
+          if (i > 0)
+            this.idp_names =
+              this.idp_names + ", " + tokenObj.identities[i].providerName;
+          else this.idp_names = tokenObj.identities[i].providerName;
         }
-  
-      (this.username = tokenObj["cognito:username"]),
-        (this.role = tokenObj["cognito:roles"]),
-        (this.group = tokenObj["cognito:groups"]),
-        (this.email = tokenObj["email"]),
-        (this.exp = currentDate.toLocaleString()),
-        (this.timezone = currentDate
-          .toString()
-          .match(/\((.*)\)/)
-          .pop()),
-        (this.gravatar = CryptoJS.MD5(
-          (this.email ? this.email : "").trim().toLowerCase()
-        ).toString());
+
+        (this.username = tokenObj["cognito:username"]),
+          (this.role = tokenObj["cognito:roles"].join()),
+          (this.group = tokenObj["cognito:groups"].join()),
+          (this.email = tokenObj["email"]),
+          (this.exp = currentDate.toLocaleString()),
+          (this.timezone = currentDate
+            .toString()
+            .match(/\((.*)\)/)
+            .pop()),
+          (this.gravatar = CryptoJS.MD5(
+            (this.email ? this.email : "").trim().toLowerCase()
+          ).toString());
+      }
     },
     async logout() {
       Auth.signOut({ global: true })
