@@ -53,6 +53,7 @@
                   type="submit"
                   form="signInForm"
                   value="Submit"
+                  block
                   ><span
                     class="spinner-border spinner-border-sm"
                     role="status"
@@ -66,6 +67,7 @@
                   type="submit"
                   form="signInForm"
                   value="Submit"
+                  block
                   >Sign In</b-button
                 >
                 <br />
