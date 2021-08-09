@@ -1,14 +1,16 @@
 <template>
   <div class="container">
     <div class="modal-dialog">
-      <div class="modal-content background-customizable modal-content-mobile visible-xs visible-sm" >
+      <div
+        class="modal-content background-customizable modal-content-mobile visible-xs visible-sm"
+      >
         <div>
           <div class="banner-customizable">
             <center></center>
           </div>
         </div>
         <div class="modal-body">
-          <div v-if="user !==null">
+          <div v-if="user !== null">
             <ChangePassword :user="user" />
           </div>
           <div v-else>
@@ -42,34 +44,38 @@
                     :disabled="loading"
                   />
                 </div>
+                <a class="redirect-customizable" href="/forgotpassword">
+                  Forgot your password?</a>
                 <p></p>
-                <b-button v-if="loading"
+                <b-button
+                  v-if="loading"
                   variant="success"
                   type="submit"
                   form="signInForm"
                   value="Submit"
                   ><span
-                class="spinner-border spinner-border-sm"
-                role="status"
-                aria-hidden="true"
-              ></span>Sign In
-              </b-button>
-                <b-button v-else
+                    class="spinner-border spinner-border-sm"
+                    role="status"
+                    aria-hidden="true"
+                  ></span
+                  >Sign In
+                </b-button>
+                <b-button
+                  v-else
                   variant="success"
                   type="submit"
                   form="signInForm"
                   value="Submit"
                   >Sign In</b-button
                 >
-                <a class="redirect-customizable" href="/forgotpassword">
-                  Forgot your password?</a
-                >
                 <br />
-                <!-- <div>
-                      <p class="redirect-customizable">
-                        <span>Need an account?</span>&nbsp;<a href="/register">Sign up</a>
-                      </p>
-                    </div> -->
+                <div>
+                  <p class="redirect-customizable">
+                    <span>Need an account?</span>&nbsp;<a href="/register"
+                      >Sign up</a
+                    >
+                  </p>
+                </div>
               </form>
             </div>
 
@@ -199,7 +205,7 @@ export default {
       user: null,
     };
   },
-  mounted: function () {
+  mounted: function() {
     // window.localStorage.removeItem("idtoken", "");
     // window.localStorage.removeItem("username", "");
 
@@ -226,17 +232,17 @@ export default {
     });
   },
   methods: {
-    toast(msg, type = 'info') {
-          this.$bvToast.toast(msg, {
-            title: type,
-            toaster: "b-toaster-top-center",
-            solid: true,
-            static: true,
-            appendToast: true,
-            // noAutoHide: true,
-            variant: type === "info"? "success" : "warning",
-          });
-        },
+    toast(msg, type = "info") {
+      this.$bvToast.toast(msg, {
+        title: type,
+        toaster: "b-toaster-top-center",
+        solid: true,
+        static: true,
+        appendToast: true,
+        // noAutoHide: true,
+        variant: type === "info" ? "success" : "warning",
+      });
+    },
 
     // transitUserInfo(userData) {
     //   const tokens = userData.signInUserSession.idToken.jwtToken.split(".");
@@ -272,7 +278,7 @@ export default {
             this.user = userData;
             this.loading = false;
           } else {
-            this.$router.push ("/userinfo");
+            this.$router.push("/userinfo");
             // this.transitUserInfo(userData);
           }
         })
