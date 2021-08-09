@@ -49,10 +49,11 @@
               <a class="redirect-customizable" href="/"> Return to login</a>
             </form>
           </div>
-          <!-- <div>
-                    <p class="redirect-customizable"><span>Need an account?</span>&nbsp;<a
-                                    href="/register">Sign up</a></p>
-                </div> -->
+          <div>
+            <p class="redirect-customizable">
+              <span>Need an account?</span>&nbsp;<a href="/register">Sign up</a>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -115,7 +116,7 @@ export default {
                 // this.$bvToast.show ('info-toast');
                 this.toast("Email Sent!");
               })
-              .catch(function (error) {
+              .catch(function(error) {
                 console.log(error);
                 this.loading = false;
                 this.toast(error.message, "warning");
