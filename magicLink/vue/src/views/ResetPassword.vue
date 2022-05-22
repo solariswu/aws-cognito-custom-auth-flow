@@ -1,8 +1,6 @@
 <template>
   <div class="container">
     <div class="modal-dialog">
-      <b-toast id="info-toast" title="info" v-model="toastmsg" static>
-      </b-toast>
       <div class="modal-content background-customizable modal-content-mobile">
         <div>
           <div class="banner-customizable">
@@ -79,6 +77,17 @@ export default {
     };
   },
   methods: {
+    toast(msg, type = 'info', autoHide = true) {
+          this.$bvToast.toast(msg, {
+            title: type,
+            toaster: "b-toaster-top-center",
+            solid: true,
+            static: true,
+            appendToast: true,
+            noAutoHide: !autoHide,
+            variant: type === "info"? "success" : "warning",
+          });
+        },
     changepassword() {
       if (this.code.length < 6) {
         console.log("Incorrect code!");
@@ -90,12 +99,12 @@ export default {
         this.loading = true;
         Auth.forgotPasswordSubmit(this.username, this.code, this.newpassword)
           .then(() => {
-            alert("New password applied, please sign-in");
+            this.toast(`New password applied, please sign-in.`, "info", false);
             this.loading = false;
             this.$router.push("/");
           })
           .catch((err) => {
-            alert(err.message);
+            this.toast(err.message, "warning", false);
             this.loading = false;
           });
       }
