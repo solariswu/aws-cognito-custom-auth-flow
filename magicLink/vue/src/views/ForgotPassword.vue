@@ -34,11 +34,17 @@
               <br />
 
               <b-button
+                v-if="loading"
                 variant="success"
                 type="submit"
                 form="forgotpasswordform"
                 value="Submit"
               >
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
                 Submiting
               </b-button>
               
