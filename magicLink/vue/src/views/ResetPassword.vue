@@ -101,6 +101,7 @@ export default {
           .then(() => {
             this.toast(`New password applied, please sign-in.`, "info", false);
             this.loading = false;
+            
             this.$router.push("/");
           })
           .catch((err) => {
