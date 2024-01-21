@@ -87,8 +87,6 @@ export default {
     };
   },
   mounted: function () {
-    window.localStorage.removeItem("idtoken", "");
-    window.localStorage.removeItem("username", "");
 
     try {
       Auth.currentSession()
@@ -131,8 +129,8 @@ export default {
         }
 
         (this.username = tokenObj["cognito:username"]),
-          (this.role = tokenObj["cognito:roles"].join()),
-          (this.group = tokenObj["cognito:groups"].join()),
+          (this.role = tokenObj["cognito:roles"]?.join()),
+          (this.group = tokenObj["cognito:groups"]?.join()),
           (this.email = tokenObj["email"]),
           (this.exp = currentDate.toLocaleString()),
           (this.timezone = currentDate
