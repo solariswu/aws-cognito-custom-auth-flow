@@ -59,7 +59,7 @@
                     role="status"
                     aria-hidden="true"
                   ></span
-                  >Sign In
+                  >
                 </b-button>
                 <b-button
                   v-else
@@ -218,7 +218,6 @@ export default {
           Auth.currentAuthenticatedUser().then((userData) => {
             console.log("user", userData);
             this.$router.push("/userinfo");
-            // this.transitUserInfo(userData);
           });
           break;
         case "signOut":
@@ -245,27 +244,6 @@ export default {
         variant: type === "info" ? "success" : "warning",
       });
     },
-
-    // transitUserInfo(userData) {
-    //   const tokens = userData.signInUserSession.idToken.jwtToken.split(".");
-    //   const tokenObj = JSON.parse(Buffer.from(tokens[1], "base64").toString());
-    //   const currentDate = new Date(tokenObj["exp"] * 1000);
-
-    //   this.$router.push({
-    //     name: "UserInfo",
-    //     params: {
-    //       username: tokenObj["cognito:username"],
-    //       role: tokenObj["cognito:roles"],
-    //       group: tokenObj["cognito:groups"],
-    //       email: tokenObj["email"],
-    //       exp: currentDate.toLocaleString(),
-    //       timezone: currentDate
-    //         .toString()
-    //         .match(/\((.*)\)/)
-    //         .pop(),
-    //     },
-    //   });
-    // },
 
     async oauthLogin(providerName) {
       this.loading = true;
