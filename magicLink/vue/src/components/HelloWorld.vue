@@ -174,7 +174,7 @@
                 <b-button
                   class="btn google-button socialButton-customizable"
                   style="padding: 6x"
-                  v-on:click="oauthLogin('SAMLIDP')"
+                  v-on:click="oauthLogin('AzureSAML')"
                 >
                   <img
                     src="https://uploads-ssl.webflow.com/5b219b78a710aa89f7fe9cc9/5b7102d1b3323e057102ca6a_saml%20logo.svg"
